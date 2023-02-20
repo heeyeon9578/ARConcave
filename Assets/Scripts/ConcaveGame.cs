@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ConcaveGame : MonoBehaviour
 {
-    [SerializeField] GameObject image;
+    [SerializeField] GameObject image; //바둑판의 "한 칸"
     [SerializeField] GameObject parent;
     [SerializeField] List<Button> images;
     [SerializeField] GameObject black;
@@ -24,14 +24,10 @@ public class ConcaveGame : MonoBehaviour
     int count = 0;
     private void Start()
     {
-        InitGame();
+        InitGame(); //게임 환경 초기화
     }
-
-//오목알을 두기
     public void clickBtn(GameObject go)
     {
-
-        Debug.Log(go.name);
         if (whatColor == false)
         {
             findOmok(go.name, 400); //black
@@ -49,15 +45,88 @@ public class ConcaveGame : MonoBehaviour
         Destroy(go.GetComponent<Button>());
         check();
 
-    }
-    public void check()
+    }//오목알을 두기
+    public void check() //가로 세로 대각선에 블랙이나 화이트가 5개가 되었는지 체크
     {
         checkRow();
         checkCol();
         checkDia();
         checkDia2();
     }
-    public void checkDia()
+    public void checkRow() //가로에 블랙이나 화이트가 5개 되었는지 체크
+    {
+        for (int i = 0; i < 18; i++)
+        {
+            for (int j = 0; j < 14; j++)
+            {
+                if (OmokBoard[i, j] == 400) //블랙
+                {
+                    blackCountRow++;
+                    if (blackCountRow == 5)
+                    {
+                        gameEnd("=블랙=이 가로로 5개가 되어서 이겼습니다~!! ^3^");
+                    }
+                    if (OmokBoard[i, j + 1] != 400)
+                    {
+                        blackCountRow = 0;
+
+                    }
+
+                }
+                else if (OmokBoard[i, j] == 500) //화이트
+                {
+
+                    whiteCountRow++;
+                    if (whiteCountRow == 5)
+                    {
+                        gameEnd("=화이트=가 가로로 5개가 되어서 이겼습니다~!! ^3^");
+                    }
+                    if (OmokBoard[i, j + 1] != 500)
+                    {
+                        whiteCountRow = 0;
+                    }
+                }
+            }
+        }
+    }
+    public void checkCol()//세로에 블랙이나 화이트가 5개 되었는지 체크
+    {
+        for (int j = 0; j < 18; j++)
+        {
+            for (int i = 0; i < 14; i++)
+            {
+
+                if (OmokBoard[i, j] == 400)//블랙
+                {
+                    blackCountCol[j]++;
+                    if (blackCountCol[j] == 5)
+                    {
+                        gameEnd("=블랙=이 세로로 5개가 되어서 이겼습니다~!! >3<");
+                    }
+                    if (OmokBoard[i + 1, j] != 400)
+                    {
+                        blackCountCol[j] = 0;
+
+                    }
+                }
+                else if (OmokBoard[i, j] == 500)//화이트
+                {
+                    whiteCountCol[j]++;
+                    if (whiteCountCol[j] == 5)
+                    {
+                        gameEnd("=화이트=가 세로로 5개가 되어서 이겼습니다~!! >3<");
+                    }
+                    if (OmokBoard[i + 1, j] != 500)
+                    {
+                        whiteCountCol[j] = 0;
+
+                    }
+                }
+            }
+        }
+
+    }
+    public void checkDia()//대각선(\)에 블랙이나 화이트가 5개 되었는지 체크
     {
         Debug.Log("checkDia");
         int temp = 0;
@@ -69,10 +138,10 @@ public class ConcaveGame : MonoBehaviour
                 int d = j;
                 for (int r = temp; r < temp+5; r++)
                 {
-                    if (OmokBoard[r, d] == 400)
+                    if (OmokBoard[r, d] == 400)//블랙
                     {
                         blackCountDia++;
-                    }else if(OmokBoard[r, d] == 500)
+                    }else if(OmokBoard[r, d] == 500)//화이트
                     {
                         whiteCountDia++;
                     }
@@ -80,10 +149,10 @@ public class ConcaveGame : MonoBehaviour
                 }
                 if (blackCountDia == 5)
                 {
-                    gameEnd("checkDia - black win!");
+                    gameEnd("=블랙=이 대각선(\\)으로 5개가 되어서 이겼습니다~!! >0<");
                 }else if (whiteCountDia==5)
                 {
-                    gameEnd("checkDia - white win!");
+                    gameEnd("=화이트=가 대각선(\\)으로 5개가 되어서 이겼습니다~!! >0<");
                 }
                 else
                 {
@@ -95,7 +164,7 @@ public class ConcaveGame : MonoBehaviour
             temp++;
         }
     }
-    public void checkDia2()
+    public void checkDia2()//대각선(/)에 블랙이나 화이트가 5개 되었는지 체크
     {
         Debug.Log("checkDia2");
         int temp = 0;
@@ -108,11 +177,11 @@ public class ConcaveGame : MonoBehaviour
                 int d = j;
                 for (int r = temp; r < temp + 5; r++)
                 {
-                    if (OmokBoard[r, d] == 400)
+                    if (OmokBoard[r, d] == 400)//블랙
                     {
                         blackCountDia2++;
                     }
-                    else if (OmokBoard[r, d] == 500)
+                    else if (OmokBoard[r, d] == 500)//화이트
                     {
                         whiteCountDia2++;
                     }
@@ -120,11 +189,11 @@ public class ConcaveGame : MonoBehaviour
                 }
                 if (blackCountDia2 == 5)
                 {
-                    gameEnd("checkDia2 - black win!");
+                    gameEnd("=블랙=이 대각선(/)으로 5개가 되어서 이겼습니다~!! ^0^");
                 }
                 else if (whiteCountDia2 == 5)
                 {
-                    gameEnd("checkDia2 - white win!");
+                    gameEnd("=화이트=가 대각선(/)으로 5개가 되어서 이겼습니다~!! ^0^");
                 }
                 else
                 {
@@ -136,7 +205,7 @@ public class ConcaveGame : MonoBehaviour
             temp++;
         }
     }
-    public void findOmok(string name, int color)
+    public void findOmok(string name, int color) //블랙이나 화이트로 설정
     {
         int val = int.Parse(name);
         for (int i = 0; i < 18; i++)
@@ -151,93 +220,14 @@ public class ConcaveGame : MonoBehaviour
             }
         }
     }
-
-    public void checkRow()
-    {
-        Debug.Log("checkFive");
-
-        for (int i = 0; i < 18; i++)
-        {
-            for (int j = 0; j < 14; j++)
-            { 
-                if (OmokBoard[i, j] == 400 )
-                {
-                    blackCountRow++;
-                    if (blackCountRow == 5)
-                    {
-                        gameEnd("checkFive - black win!");
-                    }
-                    if (OmokBoard[i, j + 1] != 400)
-                    {
-                        blackCountRow = 0;
-
-                    }
-
-                }
-                else if(OmokBoard[i, j] == 500)
-                {
-
-                    whiteCountRow++;
-                    if (whiteCountRow == 5)
-                    {
-                        gameEnd("checkFive - white win!");
-                    }
-                    if (OmokBoard[i, j + 1] != 500)
-                    {
-                        whiteCountRow = 0;
-                    }
-                }
-            }
-        }
-    }
-    public void checkCol()
-    {
-        Debug.Log("checkCol");
-
-        for(int j=0; j < 18; j++)
-        {
-            for (int i = 0; i < 14; i++)
-            {
-
-                if (OmokBoard[i, j] == 400)
-                {
-                    blackCountCol[j]++;
-                    if (blackCountCol[j] == 5)
-                    {
-                        gameEnd("checkCol - black win!");
-                    }
-                    if (OmokBoard[i + 1, j] != 400)
-                    {
-                        blackCountCol[j] = 0;
-
-                    }
-                }
-                else if (OmokBoard[i, j] == 500)
-                {
-                    whiteCountCol[j]++;
-                    if (whiteCountCol[j] == 5)
-                    {
-                        gameEnd("checkCol - white win!");
-                    }
-                    if (OmokBoard[i + 1, j] != 500)
-                    {
-                        whiteCountCol[j] = 0;
-
-                    }
-                }
-            }
-        }
-        
-    }
-    public void gameEnd(string str)
+    public void gameEnd(string str)//게임 오버 (누군가가 승리하였을 경우)
     {
         InitGame();
         gameEndPanel = Instantiate(Resources.Load("Canvas", typeof(GameObject))) as GameObject;
         gameEndPanel.GetComponentInChildren<Text>().text = str;
         gameEndPanel.SetActive(true);
     }
-
-    public void InitGame()
+    public void InitGame() //게임 초기화 (재시작)
     {
         images.Clear();
         OmokBoard = new int[18, 18];

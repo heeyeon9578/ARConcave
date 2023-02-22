@@ -216,8 +216,8 @@ MonoBehaviour:
   image: {fileID: 7792550200746736584, guid: 54a84652e4a1a2549a89183ab8a5ef86, type: 3}
   parent: {fileID: 541194327589460588}
   images: []
-  black: {fileID: 2060374312955189040, guid: aa605ad2e87fcf94fab683b58393b16e, type: 3}
-  white: {fileID: 4306947202847288280, guid: 4a4a297429584214bb51b386d5c41f61, type: 3}
+  blackObj: {fileID: 2060374312955189040, guid: aa605ad2e87fcf94fab683b58393b16e, type: 3}
+  whiteObj: {fileID: 4306947202847288280, guid: 4a4a297429584214bb51b386d5c41f61, type: 3}
   gameEndPanel: {fileID: 2711708014551859374, guid: dc71b7592dfb32845bf62ea32fde6c7b, type: 3}
 --- !u!1 &541194329103977248
 GameObject:
